@@ -1,0 +1,129 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-lg-9 col-12 mx-auto">
+        <div class="card card-body mt-4">
+          <h2 class="mb-0">Kode Akun List</h6>
+            <br>
+
+            <select id="ownerDropdown">
+              {% for owner in owners %}
+              <option value="{{ owner }}">{{ owner }}</option>
+              {% endfor %}
+            </select>
+
+            <table id="programKerjaTable">
+                <tr>
+                  <th>Owner</th>
+                  <th>Nama</th>
+                  <th>Jumlah</th>
+                  <!-- Add more columns headers as needed -->
+                </tr>
+                {% for programkerja in programkerjas %}
+                <tr>
+                  <td>{{ programkerja.owner_program.namaUnit }}</td>
+                  <td>{{ programkerja.nama_program }}</td>
+                  <td style="text-align: right;">{{ programkerja.jumlah|intcomma }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="5">No programkerja available.</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+          <hr class="horizontal dark my-3">
+         
+
+        </div>
+
+
+      </div>
+    </div>
+
+    {% include 'includes/footer.html' %}
+    
+  </div>
+
+{% endblock content %}
+
+{% block extra_js %}
+
+  <script src="{% static 'assets/js/plugins/choices.min.js' %}"></script>
+  <script src="{% static 'assets/js/plugins/quill.min.js' %}"></script>
+  <script src="{% static 'assets/js/plugins/flatpickr.min.js' %}"></script>
+  <script src="{% static 'assets/js/plugins/dropzone.min.js' %}"></script>
+  <script>
+    if (document.getElementById('editor')) {
+      var quill = new Quill('#editor', {
+        theme: 'snow' // Specify theme in configuration
+      });
+    }
+
+    if (document.getElementById('choices-multiple-remove-button')) {
+      var element = document.getElementById('choices-multiple-remove-button');
+      const example = new Choices(element, {
+        removeItemButton: true
+      });
+
+      example.setChoices(
+        [{
+            value: 'One',
+            label: 'Label One',
+            disabled: true
+          },
+          {
+            value: 'Two',
+            label: 'Label Two',
+            selected: true
+          },
+          {
+            value: 'Three',
+            label: 'Label Three'
+          },
+        ],
+        'value',
+        'label',
+        false,
+      );
+    }
+
+    if (document.querySelector('.datetimepicker')) {
+      flatpickr('.datetimepicker', {
+        allowInput: true
+      }); // flatpickr
+    }
+
+    Dropzone.autoDiscover = false;
+    var drop = document.getElementById('dropzone')
+    var myDropzone = new Dropzone(drop, {
+      url: "/file/post",
+      addRemoveLinks: true
+
+    });
+  </script>
+
+  <script>
+  document.getElementById('ownerDropdown').addEventListener('change', function() {
+    var selectedOwner = this.value;
+    var tableRows = document.getElementById('programKerjaTable').getElementsByTagName('tr');
+    for (var i = 0; i < tableRows.length; i++) {
+      var ownerCell = tableRows[i].getElementsByTagName('td')[0];
+      if (ownerCell) {
+        var owner = ownerCell.textContent || ownerCell.innerText;
+        if (owner === selectedOwner) {
+          tableRows[i].style.display = "";
+        } else {
+          tableRows[i].style.display = "none";
+        }
+      }
+    }
+  });
+  </script>
+
+{% endblock extra_js %}

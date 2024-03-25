@@ -1,0 +1,388 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-lg-9 col-12 mx-auto">
+        <div class="card card-body mt-4">
+          <h6 class="mb-0">New Project</h6>
+          <p class="text-sm mb-0">Create new project</p>
+          <hr class="horizontal dark my-3">
+          
+          {% comment %} <label for="projectName" class="form-label">Project Name</label>
+          <input type="text" class="form-control" id="projectName">
+          
+          <row mt-4>
+            <div class="col-6 col">
+              <label for="unitName" class="form-label">Dari Unit</label>
+              {{ form.owner_program }}
+            </div>
+          </row> {% endcomment %}
+
+
+          
+          <div class="mt-2">
+            <div class="row">
+              <div class="col">
+                  <label for="programName" class="form-label">Nama Program</label>
+                  <input type="text" class="form-control" id="programName">
+              </div>
+              <div class="col">
+                  <label for="subyekJurnal" class="form-label">Subyek Jurnal</label>
+                  <input type="text" class="form-control" id="subyekJurnal">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <label class="form-label">Tanggal Transaksi</label>
+              <input class="form-control datetimepicker" type="text" placeholder="Tanggal Transaksi" data-input id="dateInput">
+            </div>
+            <div class="col-6">
+                  <label for="nominalTransaksi" class="form-label">Nominal Transaksi</label>
+                  <input type="number" class="form-control" id="nominalTransaksi">
+            </div>
+          </div>
+
+          <div class="mt-2">
+            <div class="row">
+              <div class="col">
+                <label for="id_program" class="form-label">ID Program</label>
+                <input type="text" class="form-control" id="id_program" disabled>
+              </div>
+              <div class="col">
+                <label for="inputOutput" class="form-label">Jenis Input or Output</label>
+                <input type="text" class="form-control" id="inputOutput" disabled>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-2">
+            <div class="row">
+              <div class="col">
+                <label for="unitInstitusi" class="form-label">Unit Institusi</label>
+                <input type="text" class="form-control" id="unitInstitusi" disabled>
+              </div>
+              <div class="col">
+                <label for="namaAkun" class="form-label">Nama Akun</label>
+                <input type="text" class="form-control" id="namaAkun" disabled>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-2">
+            <div class="row">
+              <div class="col">
+                <label for="id_unitInstitusi" class="form-label">ID Unit Institusi</label>
+                <input type="text" class="form-control" id="id_unitInstitusi" disabled>
+              </div>
+              <div class="col">
+                <label for="kodeAkun" class="form-label">Kode Akun</label>
+                <input type="text" class="form-control" id="kodeAkun" disabled>
+              </div>
+            </div>
+          </div>
+
+           
+          <div class="mt-2">
+            <div class="row">
+              <div class="col">
+                  <label for="namaAkunPasangan_1" class="form-label">Akun Pasangan #1</label>
+                  <input type="text" class="form-control" id="namaAkunPasangan_1">
+              </div>
+              <div class="col">
+                  <label for="nominalPasangan_1" class="form-label">Nominal Pasangan #1</label>
+                  <input type="number" class="form-control" id="nominalPasangan_1">
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-2">
+            <div class="row">
+              <div class="col">
+                  <label for="namaAkunPasangan_2" class="form-label">Akun Pasangan #2</label>
+                  <input type="text" class="form-control" id="namaAkunPasangan_2">
+              </div>
+              <div class="col">
+                  <label for="nominalPasangan_2" class="form-label">Nominal Pasangan #2</label>
+                  <input type="number" class="form-control" id="nominalPasangan_2">
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-2">
+            <div class="row">
+              <div class="col">
+                  <label for="kodeAkunPasangan_1" class="form-label">Kode Akun Pasangan #1</label>
+                  <input type="text" class="form-control" id="kodeAkunPasangan_1" disabled>
+              </div>
+              <div class="col">
+                  <label for="kodeAkunPasangan_2" class="form-label">Kode Akun Pasangan #2</label>
+                  <input type="text" class="form-control" id="kodeAkunPasangan_2" disabled>
+              </div>
+            </div>
+          </div>
+
+
+
+          
+          
+          
+          {% comment %} <div class="row mt-4">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label>
+                  Private Project
+                </label>
+                <p class="form-text text-muted text-xs ms-1">
+                  If you are available for hire outside of the current situation, you can encourage others to hire you.
+                </p>
+                <div class="form-check form-switch ms-1">
+                  <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onclick="notify(this)" data-type="warning" data-content="Once a project is made private, you cannot revert it to a public project." data-title="Warning" data-icon="ni ni-bell-55">
+                  <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                </div>
+              </div>
+            </div>
+          </div> {% endcomment %}
+
+          <label class="mt-4">Catatan Transaksi</label>
+          <p class="form-text text-muted text-xs ms-1">
+          </p>
+          <div id="editor">
+          </div>
+          <label class="mt-4 form-label">Project Tags</label>
+          <select class="form-control" name="choices-multiple-remove-button" id="choices-multiple-remove-button" multiple>
+            <option value="Choice 1" selected>Choice 1</option>
+            <option value="Choice 2">Choice 2</option>
+            <option value="Choice 3">Choice 3</option>
+            <option value="Choice 4">Choice 4</option>
+          </select>
+
+          
+          
+           
+          
+          <div class="d-flex justify-content-end mt-4">
+            <button type="button" name="button" class="btn btn-light m-0">Cancel</button>
+            <button type="button" name="button" class="btn bg-gradient-primary m-0 ms-2">Create Project</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include 'includes/footer.html' %}
+    
+  </div>
+
+{% endblock content %}
+
+{% block extra_js %}
+
+
+  <script src="{% static 'assets/js/plugins/choices.min.js' %}"></script>
+  <script src="{% static 'assets/js/plugins/quill.min.js' %}"></script>
+  <script src="{% static 'assets/js/plugins/flatpickr.min.js' %}"></script>
+  <script src="{% static 'assets/js/plugins/dropzone.min.js' %}"></script>
+  <script>
+    if (document.getElementById('editor')) {
+      var quill = new Quill('#editor', {
+        theme: 'snow' // Specify theme in configuration
+      });
+    }
+
+    if (document.getElementById('choices-multiple-remove-button')) {
+      var element = document.getElementById('choices-multiple-remove-button');
+      const example = new Choices(element, {
+        removeItemButton: true
+      });
+
+      example.setChoices(
+        [{
+            value: 'One',
+            label: 'Label One',
+            disabled: true
+          },
+          {
+            value: 'Two',
+            label: 'Label Two',
+            selected: true
+          },
+          {
+            value: 'Three',
+            label: 'Label Three'
+          },
+        ],
+        'value',
+        'label',
+        false,
+      );
+    }
+
+    if (document.querySelector('.datetimepicker')) {
+      flatpickr('.datetimepicker', {
+        allowInput: true
+      }); // flatpickr
+    }
+
+    Dropzone.autoDiscover = false;
+    var drop = document.getElementById('dropzone')
+    var myDropzone = new Dropzone(drop, {
+      url: "/file/post",
+      addRemoveLinks: true
+
+    });
+  </script>
+
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+
+  <!-- Include jQuery UI CSS from a CDN -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <!-- Add custom CSS for the autocomplete dropdown -->
+  <style>
+  .ui-autocomplete {
+      background: #fff;
+      border: 1px solid #c5c5c5;
+      z-index: 9999 !important;
+  }
+  </style>
+
+
+
+  <script>
+  $(function() {
+    $("#programName").autocomplete({
+      source: function(request, response) {
+        $.getJSON("{% url 'lapkeuangan:autocomplete_program' %}", {
+          term: request.term
+        }, response);
+      },
+      minLength: 2,
+    });
+  });
+  </script>
+
+  {% comment %} <script>
+  $(function() {
+    $("#programName").autocomplete({
+      source: function(request, response) {
+        $.getJSON("{% url 'lapkeuangan:autocomplete_program' %}", {
+          term: request.term,
+          owner_program: $("#owner_program").val(),
+          unit:`Ketakmiran`
+        }, response);
+      },
+      minLength: 2,
+    });
+  });
+  </script> {% endcomment %}
+
+{% comment %} Autocomplete nama orang/pihak yang bertransaksi {% endcomment %}
+<script>
+$(function() {
+  $("#subyekJurnal").autocomplete({
+    source: function(request, response) {
+      $.getJSON("{% url 'lapkeuangan:autocomplete_entitas' %}", {
+        term: request.term
+      }, response);
+    },
+    minLength: 2,
+  });
+});
+</script>
+
+{% comment %} Autocomplete untuk nama akun {% endcomment %}
+<script>
+$(function() {
+  $("#namaAkunPasangan_1, #namaAkunPasangan_2").autocomplete({
+    source: function(request, response) {
+      $.getJSON("{% url 'lapkeuangan:autocomplete_akun' %}", {
+        term: request.term
+      }, response);
+    },
+    minLength: 2,
+    select: function(event, ui) {
+      var namaAkun = ui.item.value;
+      var kodeAkunField = $("#kodeAkunPasangan_" + this.id.split('_')[1]);
+      $.getJSON("{% url 'lapkeuangan:get_kode_akun' %}", {
+        nama_akun: namaAkun
+      }, function(data) {
+        if (data.kode_akun) {
+          kodeAkunField.val(data.kode_akun);
+        } else {
+          kodeAkunField.val('');
+          alert(data.error);
+        }
+      });
+    }
+  });
+});
+</script>
+
+{% comment %} <script>
+$(function() {
+  $("#programName").on('autocompleteselect', function(event, ui) {
+    $.getJSON("{% url 'lapkeuangan:get_unit_from_program' %}", {
+      programName: ui.item.value
+    }, function(data) {
+      $("#unitInstitusi").val(data.unit);
+      $("#kodeAkun").val(data.kode_akun);  // Add this line
+    });
+  });
+});
+</script> {% endcomment %}
+
+{% comment %} Saat mengisi nama program, maka unit institusi, kode akun, dan nama akun terisi otomatis {% endcomment %}
+<script>
+$(function() {
+  $("#programName").on('autocompleteselect', function(event, ui) {
+    $.getJSON("{% url 'lapkeuangan:get_unit_from_program' %}", {
+      programName: ui.item.value
+    }, function(data) {
+      $("#unitInstitusi").val(data.unit);
+      $("#kodeAkun").val(data.kode_akun);
+      $("#id_unitInstitusi").val(data.unit_id);
+       $("#id_program").val(data.program_id);  
+      $("#inputOutput").val(data.jenis_input_output);
+      if (data.nama_akun) {
+        $("#namaAkun").val(data.nama_akun);
+      }
+    });
+  });
+});
+</script>
+
+{% comment %} Mengisi date picker dengan tanggal hari ini di saat loading page {% endcomment %}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const date = new Date();
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const year = date.getFullYear();
+
+        document.getElementById('dateInput').value = `${year}-${month}-${day}`;
+    });
+</script>
+
+<script>
+$(function() {
+  $("#nominalTransaksi").focusout(function() {
+    var nominalTransaksi = $(this).val();
+    $("#nominalPasangan_1").val(nominalTransaksi);
+
+    // Format the value with thousand separators
+    var formattedValue = parseInt(nominalTransaksi).toLocaleString('id-ID');
+
+    // Append the formatted value to the label
+    $("label[for='nominalTransaksi']").text('Nominal Transaksi: ' + formattedValue);
+  });
+});
+</script>
+
+{% endblock extra_js %}

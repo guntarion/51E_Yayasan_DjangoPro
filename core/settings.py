@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     'yayasan.program',
     'yayasan.entitas',
     'yayasan.lapkeuangan',
+    'yayasan.kbtkadmin',
 ]
 
 SITE_ID = 1

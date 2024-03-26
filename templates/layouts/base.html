@@ -12,6 +12,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 {% load i18n static admin_soft %}
+{% load django_browser_reload %}
+
 {% get_current_language as LANGUAGE_CODE %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 {% get_direction as direction %}
@@ -55,6 +57,6 @@
     }
   </script>
   
-
+  {% django_browser_reload_script %}
 </body>
 </html>

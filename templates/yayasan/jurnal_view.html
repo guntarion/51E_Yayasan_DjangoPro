@@ -10,6 +10,21 @@
           <h6 class="mb-0">Jurnal View</h6>
           <p class="text-sm mb-0">Create new project</p>
           <hr class="horizontal dark my-3">
+
+          <table>
+            <tr>
+              <th>Nomer Transaksi</th>
+              <th>Organisasi</th>
+              <!-- Add more headers for the other fields -->
+            </tr>
+            {% for jurnal_transaksi in jurnal_transaksi_list %}
+              <tr>
+                <td>{{ jurnal_transaksi.nomer_transaksi }}</td>
+                <td>{{ jurnal_transaksi.organisasi }}</td>
+                <!-- Add more cells for the other fields -->
+              </tr>
+            {% endfor %}
+          </table>
           
           
         </div>

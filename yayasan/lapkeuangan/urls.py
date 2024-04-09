@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import CreateEntryView
 
 app_name = 'lapkeuangan'
 
@@ -25,4 +26,6 @@ urlpatterns = [
      path('labarugi-view/', views.labarugi_view, name='labarugi_view'),
      path('neraca-view/', views.neraca_view, name='neraca_view'),
      path('unitreport-view/', views.unitreport_view, name='unitreport_view'),
+
+     path('create-entry/', CreateEntryView.as_view(), name='create-entry'),
 ]

@@ -29,14 +29,16 @@ class KodeAkun(models.Model):
         return self.nama_akun
 
 class JurnalTransaksi(TimeStampedModel):
-    kode_akun = models.ForeignKey(KodeAkun, on_delete=models.CASCADE)
-    program = models.ForeignKey(ProgramKerja, on_delete=models.CASCADE)
-    organisasi = models.ForeignKey(Institusi, on_delete=models.CASCADE)
     nomer_transaksi = models.CharField(max_length=100)
+    organisasi = models.ForeignKey(Institusi, on_delete=models.CASCADE)
     entitas = models.ForeignKey(
         Entitas, related_name="entitas_transaksi", on_delete=models.CASCADE)
-    urutan_per_kode_akun = models.IntegerField()
+    urutan_transaksi = models.CharField(max_length=100)
+    no_bukti_transaksi = models.CharField(max_length=100)
+    program = models.ForeignKey(ProgramKerja, on_delete=models.CASCADE)
     tanggal_transaksi = models.DateField()
+    kode_akun = models.ForeignKey(KodeAkun, on_delete=models.CASCADE)
+    nama_akun = models.CharField(max_length=100)
     keterangan = models.TextField()
     jumlah = models.DecimalField(max_digits=25, decimal_places=2, default=0.00)
     DEBET_OR_KREDIT_CHOICES = [

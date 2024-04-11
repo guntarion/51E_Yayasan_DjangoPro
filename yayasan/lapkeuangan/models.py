@@ -29,24 +29,24 @@ class KodeAkun(models.Model):
         return self.nama_akun
 
 class JurnalTransaksi(TimeStampedModel):
-    nomer_transaksi = models.CharField(max_length=100)
+    nomer_transaksi = models.CharField(max_length=100) # Nomer urutan dalam satu bulan
+    urutan_transaksi = models.CharField(max_length=100) # Urutan transaksi per kode akun
+    no_bukti_transaksi = models.CharField(max_length=100) # Nomer bukti transaksi cetak
     organisasi = models.ForeignKey(Institusi, on_delete=models.CASCADE)
     entitas = models.ForeignKey(
-        Entitas, related_name="entitas_transaksi", on_delete=models.CASCADE)
-    urutan_transaksi = models.CharField(max_length=100)
-    no_bukti_transaksi = models.CharField(max_length=100)
-    program = models.ForeignKey(ProgramKerja, on_delete=models.CASCADE)
+        Entitas, related_name="entitas_transaksi", on_delete=models.CASCADE)   # owner transaksi 
     tanggal_transaksi = models.DateField()
+    program = models.ForeignKey(ProgramKerja, on_delete=models.CASCADE)
+    keterangan_transaksi = models.CharField(max_length=100, null=True, blank=True) # secara langsung menjelaskan transaksi
     kode_akun = models.ForeignKey(KodeAkun, on_delete=models.CASCADE)
     nama_akun = models.CharField(max_length=100)
-    keterangan = models.TextField()
-    jumlah = models.DecimalField(max_digits=25, decimal_places=2, default=0.00)
-    DEBET_OR_KREDIT_CHOICES = [
-        ('debet', 'Debet'),
-        ('kredit', 'Kredit'),
-    ]
-    debet_or_kredit = models.CharField(
-        max_length=100, choices=DEBET_OR_KREDIT_CHOICES)
+    # jumlah = models.DecimalField(max_digits=25, decimal_places=2, default=0.00)
+    # DEBET_OR_KREDIT_CHOICES = [
+    #     ('debet', 'Debet'),
+    #     ('kredit', 'Kredit'),
+    # ]
+    # debet_or_kredit = models.CharField(
+    #     max_length=100, choices=DEBET_OR_KREDIT_CHOICES)
     nominal_debet = models.DecimalField(
         max_digits=25, decimal_places=2, default=0.00)
     nominal_kredit = models.DecimalField(

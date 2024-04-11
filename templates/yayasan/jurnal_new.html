@@ -8,6 +8,19 @@
       <div class="col-lg-9 col-12 mx-auto">
         <div class="card card-body mt-4">
           <h6 class="mb-0">New Project</h6>
+
+          <table id="previewEntriJurnal" style="border-collapse: collapse; width: 100%;">
+            <tr style="border-bottom: 2px solid black;">
+              <th>In/Out</th>
+              <th>Nama Program</th>
+              <th>Kode Akun</th>
+              <th>Nama Akun</th>
+              <th>Debet</th>
+              <th>Kredit</th>
+            </tr>
+            <!-- Table rows will go here -->
+          </table>
+
           <p class="text-sm mb-0">Create new project</p>
           <hr class="horizontal dark my-3">
           
@@ -384,5 +397,79 @@ $(function() {
   });
 });
 </script>
+
+<script>
+  document.getElementById('nominalTransaksi').addEventListener('change', function(e) {
+    var table = document.getElementById('previewEntriJurnal');
+    var programName = document.getElementById('programName').value;
+
+    // Only proceed if programName is not empty
+    if (!programName) {
+      return;
+    }
+
+    // Get the values from the inputOutput, kodeAkun, namaAkun, and nominalTransaksi fields
+    var inputOutput = document.getElementById('inputOutput').value;
+    var kodeAkun = document.getElementById('kodeAkun').value;
+    var namaAkun = document.getElementById('namaAkun').value;
+    var nominal = e.target.value;
+
+    // Remove the last row if it exists
+    if (table.rows.length > 1) {
+      table.deleteRow(-1);
+    }
+
+    // Add a new row
+    var row = table.insertRow(-1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+
+    cell1.innerHTML = inputOutput;
+    cell2.innerHTML = programName;
+    cell3.innerHTML = kodeAkun;
+    cell4.innerHTML = namaAkun;
+    cell5.innerHTML = nominal;
+    cell6.innerHTML = 0;
+  });
+</script>
+
+<script>
+  document.getElementById('nominalPasangan_1').addEventListener('change', function(e) {
+    var table = document.getElementById('previewEntriJurnal');
+    var namaAkunPasangan_1 = document.getElementById('namaAkunPasangan_1').value;
+
+    // Only proceed if namaAkunPasangan_1 is not empty
+    if (!namaAkunPasangan_1) {
+      return;
+    }
+
+    // Get the values from the inputOutput, kodeAkunPasangan_1, and nominalPasangan_1 fields
+    var inputOutput = document.getElementById('inputOutput').value;
+    var inputOutput_row2 = inputOutput === 'IN' ? 'OUT' : 'IN';
+    var kodeAkunPasangan_1 = document.getElementById('kodeAkunPasangan_1').value;
+    var nominalPasangan_1 = e.target.value;
+
+    // Add a new row
+    var row = table.insertRow(-1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+
+    cell1.innerHTML = inputOutput_row2;
+    cell2.innerHTML = '';
+    cell3.innerHTML = kodeAkunPasangan_1;
+    cell4.innerHTML = namaAkunPasangan_1;
+    cell5.innerHTML = 0;
+    cell6.innerHTML = nominalPasangan_1;
+  });
+</script>
+
 
 {% endblock extra_js %}

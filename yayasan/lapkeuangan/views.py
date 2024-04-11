@@ -111,13 +111,19 @@ def autocomplete_akun(request):
     return render(request, 'jurnal_new.html')
 
 def jurnal_view(request):
+    print('jurnal_view is being called')
     # Fetch all JurnalTransaksi instances
     jurnal_transaksi_list = JurnalTransaksi.objects.all()
+
+    # Print the QuerySet
+    print('jurnal transaksi: ', jurnal_transaksi_list)
+
     context = {
         'parent': 'applications',
         'segment': 'jurnal_view',
         'jurnal_transaksi_list': jurnal_transaksi_list,  # Pass the instances to the template
     }
+
     return render_yayasan(request, 'jurnal_view.html', context)
 
 def labarugi_view(request):
@@ -173,25 +179,127 @@ class CreateEntryView(View):
     def get(self, request, *args, **kwargs):
         # Simulate user input
         user_input = {
-            'nomer_transaksi': '123',
+            'program_nama': 'Konsumsi Rapat Pengurus',
+            'program_id' : 347,
+            'program_in_out' : 'OUT',
+            'program_akun_nama' : '',
+            'program_akun_kode' : 15,
+            'subyek_nama': 'A. Guntar Adnan',
+            'subyek_id' : 3,
+            'unit_nama' : '',
+            'unit_id' : '',
+            'nomimal_transaksi': 308000,
+            'pasangan_1_nama' : 'Kas Yayasan',
+            'pasangan_1_id' : 5,
+            'pasangan_1_nominal': 308000,
+            'pasangan_2_nama' : '',
+            'pasangan_2_id' : '',
+            'pasangan_2_nominal' : '',
+            'tanggal_transaksi': '2024-04-10',
             'organisasi': 1,  # ID of the Institusi instance
             'entitas': 1,  # ID of the Entitas instance
-            'urutan_transaksi': '1',
-            'no_bukti_transaksi': '456',
-            'program': 357,  # ID of the ProgramKerja instance
-            'tanggal_transaksi': '2024-04-02',
-            'kode_akun': 15,  # ID of the KodeAkun instance
-            'nama_akun': 'Nama Akun dari kode akun',
-            'keterangan': 'Test Keterangan',
-            'jumlah': '100.00',
-            'debet_or_kredit': 'debet',
-            'nominal_debet': '50.00',
-            'nominal_kredit': '50.00',
-            'catatan': 'Test Catatan'
+            'keterangan': 'Test keterangan',
+            'catatan': 'Test Catatan',
         }
-        create_journal_entry(user_input)
-        return HttpResponse('Entry created')
+        if user_input['program_in_out'] == 'OUT':
 
+            input_jurnal_baris_pertama = {
+                'no_bukti_transaksi' : 123, 
+                'organisasi': user_input['organisasi'],
+                'entitas': user_input['entitas'],
+                'tanggal_transaksi': user_input['tanggal_transaksi'],
+                'program': user_input['program_id'],
+                'keterangan_transaksi': user_input['keterangan'],
+                'kode_akun': user_input['program_akun_kode'],
+                'nama_akun': user_input['program_akun_nama'],
+                'nominal_debet' : user_input['nomimal_transaksi'],
+                'nominal_kredit' : 0,
+                'catatan' : 'Test Catatan'
+            }
+            create_journal_entry(input_jurnal_baris_pertama)
+
+            input_jurnal_baris_kedua = {
+                'no_bukti_transaksi' : 123, 
+                'organisasi': user_input['organisasi'],
+                'entitas': user_input['entitas'],
+                'tanggal_transaksi': user_input['tanggal_transaksi'],
+                'program': user_input['program_id'],
+                'keterangan_transaksi': user_input['keterangan'],
+                'kode_akun': user_input['pasangan_1_id'],
+                'nama_akun': user_input['pasangan_1_nama'],
+                'nominal_debet' : 0,
+                'nominal_kredit': user_input['pasangan_1_nominal'],
+                'catatan' : ''
+            }
+            create_journal_entry(input_jurnal_baris_kedua)
+
+            # check if pasangan 2 is not empty
+            if user_input['pasangan_2_id']:
+                input_jurnal_baris_ketiga = {
+                    'no_bukti_transaksi' : 123, 
+                    'organisasi': user_input['organisasi'],
+                    'entitas': user_input['entitas'],
+                    'tanggal_transaksi': user_input['tanggal_transaksi'],
+                    'program': user_input['program_id'],
+                    'keterangan_transaksi': user_input['keterangan'],
+                    'kode_akun': user_input['pasangan_2_id'],
+                    'nama_akun': user_input['pasangan_2_nama'],
+                    'nominal_debet' : 0,
+                    'nominal_kredit': user_input['pasangan_2_nominal'],
+                    'catatan' : ''
+                }
+                create_journal_entry(input_jurnal_baris_ketiga)
+
+        else:
+            # if program is IN
+            input_jurnal_baris_pertama = {
+                'no_bukti_transaksi' : 123, 
+                'organisasi': user_input['organisasi'],
+                'entitas': user_input['entitas'],
+                'tanggal_transaksi': user_input['tanggal_transaksi'],
+                'program': user_input['program_id'],
+                'keterangan_transaksi': user_input['keterangan'],
+                'kode_akun': user_input['program_akun_kode'],
+                'nama_akun': user_input['program_akun_nama'],
+                'nominal_debet': 0,
+                'nominal_kredit': user_input['nomimal_transaksi'], 
+                'catatan' : 'Test Catatan'
+            }
+            create_journal_entry(input_jurnal_baris_pertama)
+
+            input_jurnal_baris_kedua = {
+                'no_bukti_transaksi' : 123, 
+                'organisasi': user_input['organisasi'],
+                'entitas': user_input['entitas'],
+                'tanggal_transaksi': user_input['tanggal_transaksi'],
+                'program': user_input['program_id'],
+                'keterangan_transaksi': user_input['keterangan'],
+                'kode_akun': user_input['pasangan_1_id'],
+                'nama_akun': user_input['pasangan_1_nama'],
+                'nominal_debet': user_input['pasangan_1_nominal'], 
+                'nominal_kredit': 0,
+                'catatan' : ''
+            }
+            create_journal_entry(input_jurnal_baris_kedua)
+
+            # check if pasangan 2 is not empty
+            if user_input['pasangan_2_id']:
+                input_jurnal_baris_ketiga = {
+                    'no_bukti_transaksi' : 123, 
+                    'organisasi': user_input['organisasi'],
+                    'entitas': user_input['entitas'],
+                    'tanggal_transaksi': user_input['tanggal_transaksi'],
+                    'program': user_input['program_id'],
+                    'keterangan_transaksi': user_input['keterangan'],
+                    'kode_akun': user_input['pasangan_2_id'],
+                    'nama_akun': user_input['pasangan_2_nama'],
+                    'nominal_debet': user_input['pasangan_2_nominal'], 
+                    'nominal_kredit': 0,
+                    'catatan' : ''
+                }
+                create_journal_entry(input_jurnal_baris_ketiga)
+            
+        return HttpResponse('Entry created')
 
 def generate_nomer_transaksi():
     # Get the current month in three-letter format
@@ -226,31 +334,30 @@ def generate_urutan_transaksi(kode_akun):
     # Create the urutan_transaksi for the new entry
     return f'{current_year_month}-{kode_akun.kode_akun}-{new_count:03}'
 
-def create_journal_entry(user_input):
+def create_journal_entry(input_jurnal):
     # Get the KodeAkun instance
-    kode_akun = KodeAkun.objects.get(pk=user_input['kode_akun'])
+    kode_akun = KodeAkun.objects.get(pk=input_jurnal['kode_akun'])
     nama_akun = kode_akun.nama_akun
 
     # Generate nomer_transaksi and urutan_transaksi
     nomer_transaksi = generate_nomer_transaksi()
     urutan_transaksi = generate_urutan_transaksi(kode_akun)
 
+    no_bukti_transaksi: 456
+
     # Create a new JurnalTransaksi instance with the processed data
     jurnal_transaksi = JurnalTransaksi(
         nomer_transaksi=nomer_transaksi,
-        organisasi=Institusi.objects.get(pk=user_input.get('organisasi')),
-        entitas=Entitas.objects.get(pk=user_input.get('entitas')),
+        organisasi=Institusi.objects.get(pk=input_jurnal.get('organisasi')),
+        entitas=Entitas.objects.get(pk=input_jurnal.get('entitas')),
         urutan_transaksi=urutan_transaksi,
-        no_bukti_transaksi=user_input.get('no_bukti_transaksi'),
-        program=ProgramKerja.objects.get(pk=user_input.get('program')),
-        tanggal_transaksi=user_input.get('tanggal_transaksi'),
+        no_bukti_transaksi=input_jurnal.get('no_bukti_transaksi'),
+        program=ProgramKerja.objects.get(pk=input_jurnal.get('program')),
+        tanggal_transaksi=input_jurnal.get('tanggal_transaksi'),
         kode_akun=kode_akun,  
         nama_akun=nama_akun,
-        keterangan=user_input.get('keterangan'),
-        jumlah=user_input.get('jumlah'),
-        debet_or_kredit=user_input.get('debet_or_kredit'),
-        nominal_debet=user_input.get('nominal_debet'),
-        nominal_kredit=user_input.get('nominal_kredit'),
-        catatan=user_input.get('catatan')
+        nominal_debet=input_jurnal.get('nominal_debet'),
+        nominal_kredit=input_jurnal.get('nominal_kredit'),
+        catatan=input_jurnal.get('catatan')
     )
     jurnal_transaksi.save()

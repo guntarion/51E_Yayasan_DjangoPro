@@ -17,8 +17,6 @@ class JurnalTransaksiForm(forms.ModelForm):
     class Meta:
         model = JurnalTransaksi
         fields = [
-            'owner_program', 'kode_akun', 'organisasi', 'nomer_transaksi', 'entitas',
-            'tanggal_transaksi', 'keterangan', 
-            'jumlah', 'debet_or_kredit', 'nominal_debet', 'nominal_kredit', 
-            'catatan'
+            'owner_program', 'organisasi', 'kode_akun', 'entitas', 'tanggal_transaksi',
+            'nominal_debet', 'nominal_kredit', 'catatan', 'program', 'keterangan_transaksi'
         ]        

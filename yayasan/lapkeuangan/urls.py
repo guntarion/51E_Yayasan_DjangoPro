@@ -22,10 +22,11 @@ urlpatterns = [
      path('jurnal/new/', views.jurnal_transaksi_create_view,
           name='jurnal_transaksi_new'),
 
-     path('jurnal-view/', views.jurnal_view, name='jurnal_view'),
+     path('jurnalview/', views.jurnal_view, name='jurnal_view'),
      path('labarugi-view/', views.labarugi_view, name='labarugi_view'),
      path('neraca-view/', views.neraca_view, name='neraca_view'),
      path('unitreport-view/', views.unitreport_view, name='unitreport_view'),
 
+     # Simulate Create Entry User Input
      path('create-entry/', CreateEntryView.as_view(), name='create-entry'),
 ]

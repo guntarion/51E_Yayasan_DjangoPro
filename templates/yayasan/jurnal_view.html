@@ -1,6 +1,8 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 
+{{ jurnal_transaksi_list }}
+
 {% block content %}
 
   <div class="container-fluid py-4">
@@ -8,23 +10,48 @@
       <div class="col-lg-9 col-12 mx-auto">
         <div class="card card-body mt-4">
           <h6 class="mb-0">Jurnal View</h6>
+
           <p class="text-sm mb-0">Create new project</p>
           <hr class="horizontal dark my-3">
 
-          <table>
-            <tr>
-              <th>Nomer Transaksi</th>
-              <th>Organisasi</th>
-              <!-- Add more headers for the other fields -->
-            </tr>
-            {% for jurnal_transaksi in jurnal_transaksi_list %}
-              <tr>
-                <td>{{ jurnal_transaksi.nomer_transaksi }}</td>
-                <td>{{ jurnal_transaksi.organisasi }}</td>
-                <!-- Add more cells for the other fields -->
+          <div class="card card-body mt-4">
+            <h6 class="mb-0">Jurnal View</h6>
+            <p class="text-sm mb-0">Create new project</p>
+            <hr class="horizontal dark my-3">
+
+            <table style="border-collapse: collapse; width: 100%;">
+              <tr style="border-bottom: 2px solid black;">
+                <th>Nomer Transaksi</th>
+                <th>Urutan Transaksi</th>
+                <th>Tanggal Transaksi</th>
+                <th>Program</th>
+                <th>Kode Akun</th>
+                <th>Nama Akun</th>
+                {% comment %} <th>Jumlah</th>
+                <th>Debet or Kredit</th> {% endcomment %}
+                <th>Nominal Debet</th>
+                <th>Nominal Kredit</th>
               </tr>
-            {% endfor %}
-          </table>
+              {% for jurnal_transaksi in jurnal_transaksi_list %}
+                <tr style="border-bottom: 1px solid black;">
+                  <td>{{ jurnal_transaksi.nomer_transaksi }}</td>
+                  <td>{{ jurnal_transaksi.urutan_transaksi }}</td>
+                  <td>{{ jurnal_transaksi.tanggal_transaksi }}</td>
+                  <td>{{ jurnal_transaksi.program }}</td>
+                  <td>{{ jurnal_transaksi.kode_akun }}</td>
+                  <td>{{ jurnal_transaksi.nama_akun }}</td>
+                  {% comment %} <td>{{ jurnal_transaksi.jumlah }}</td>
+                  <td>{{ jurnal_transaksi.debet_or_kredit }}</td> {% endcomment %}
+                  <td>{{ jurnal_transaksi.nominal_debet }}</td>
+                  <td>{{ jurnal_transaksi.nominal_kredit }}</td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="10">No records found.</td>
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
           
           
         </div>

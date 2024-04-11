@@ -11,7 +11,6 @@
 
           <table id="previewEntriJurnal" style="border-collapse: collapse; width: 100%;">
             <tr style="border-bottom: 2px solid black;">
-              <th>In/Out</th>
               <th>Nama Program</th>
               <th>Kode Akun</th>
               <th>Nama Akun</th>
@@ -21,7 +20,7 @@
             <!-- Table rows will go here -->
           </table>
 
-          <p class="text-sm mb-0">Create new project</p>
+          {% comment %} <p class="text-sm mb-0">Create new project</p> {% endcomment %}
           <hr class="horizontal dark my-3">
           
           {% comment %} <label for="projectName" class="form-label">Project Name</label>
@@ -166,13 +165,12 @@
           </p>
           <div id="editor">
           </div>
-          <label class="mt-4 form-label">Project Tags</label>
-          <select class="form-control" name="choices-multiple-remove-button" id="choices-multiple-remove-button" multiple>
-            <option value="Choice 1" selected>Choice 1</option>
-            <option value="Choice 2">Choice 2</option>
-            <option value="Choice 3">Choice 3</option>
-            <option value="Choice 4">Choice 4</option>
-          </select>
+          
+          <div class="d-flex justify-content-end mt-4">
+            <button type="button" name="button" class="btn bg-gradient-secondary m-0 ms-2">Simulate Journal Entry</button>
+          </div>
+
+        
 
           
           
@@ -263,6 +261,9 @@
       background: #fff;
       border: 1px solid #c5c5c5;
       z-index: 9999 !important;
+  }
+  #previewEntriJurnal td:nth-child(4), #previewEntriJurnal td:nth-child(5) {
+    text-align: right;
   }
   </style>
 
@@ -385,89 +386,108 @@ $(function() {
 
 <script>
 $(function() {
-  $("#nominalTransaksi").focusout(function() {
-    var nominalTransaksi = $(this).val();
-    $("#nominalPasangan_1").val(nominalTransaksi);
+  $("#nominalTransaksi, #nominalPasangan_1, #nominalPasangan_2").focusout(function() {
+    var nominal = $(this).val();
+    var id = $(this).attr('id');
 
     // Format the value with thousand separators
-    var formattedValue = parseInt(nominalTransaksi).toLocaleString('id-ID');
+    var formattedValue = parseInt(nominal).toLocaleString('id-ID');
 
     // Append the formatted value to the label
-    $("label[for='nominalTransaksi']").text('Nominal Transaksi: ' + formattedValue);
+    $("label[for='" + id + "']").text('Nominal: ' + formattedValue);
   });
 });
 </script>
 
 <script>
-  document.getElementById('nominalTransaksi').addEventListener('change', function(e) {
+  document.querySelector('button[name="button"]').addEventListener('click', function(e) {
     var table = document.getElementById('previewEntriJurnal');
     var programName = document.getElementById('programName').value;
+    var namaAkunPasangan_1 = document.getElementById('namaAkunPasangan_1').value;
+    var namaAkunPasangan_2 = document.getElementById('namaAkunPasangan_2').value;
+    
 
-    // Only proceed if programName is not empty
-    if (!programName) {
+    // Only proceed if programName and namaAkunPasangan_1 are not empty
+    if (!programName || !namaAkunPasangan_1) {
       return;
     }
 
-    // Get the values from the inputOutput, kodeAkun, namaAkun, and nominalTransaksi fields
-    var inputOutput = document.getElementById('inputOutput').value;
+    // Get the values from the inputOutput, kodeAkun, namaAkun, nominalTransaksi, kodeAkunPasangan_1, and nominalPasangan_1 fields
     var kodeAkun = document.getElementById('kodeAkun').value;
     var namaAkun = document.getElementById('namaAkun').value;
-    var nominal = e.target.value;
+    var nominal = document.getElementById('nominalTransaksi').value;
+    var unitInstitusi = document.getElementById('unitInstitusi').value;
+    var kodeAkunPasangan_1 = document.getElementById('kodeAkunPasangan_1').value;
+    var nominalPasangan_1 = document.getElementById('nominalPasangan_1').value;
+    var kodeAkunPasangan_2 = document.getElementById('kodeAkunPasangan_2').value;
+    var nominalPasangan_2 = document.getElementById('nominalPasangan_2').value;
+    var id_program = document.getElementById('id_program').value;
 
-    // Remove the last row if it exists
-    if (table.rows.length > 1) {
+    // Format the nominal and nominalPasangan_1 values
+    var formattedNominal = parseInt(nominal).toLocaleString('id-ID');
+    var formattedNominalPasangan_1 = parseInt(nominalPasangan_1).toLocaleString('id-ID');
+
+    // Remove the last two rows if they exist
+    while (table.rows.length > 1) {
       table.deleteRow(-1);
     }
 
-    // Add a new row
-    var row = table.insertRow(-1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    var cell5 = row.insertCell(4);
-    var cell6 = row.insertCell(5);
+    // Add the first row
+    var row1 = table.insertRow(-1);
+    var cell1 = row1.insertCell(0);
+    var cell2 = row1.insertCell(1);
+    var cell3 = row1.insertCell(2);
+    var cell4 = row1.insertCell(3);
+    var cell5 = row1.insertCell(4);
 
-    cell1.innerHTML = inputOutput;
-    cell2.innerHTML = programName;
-    cell3.innerHTML = kodeAkun;
-    cell4.innerHTML = namaAkun;
-    cell5.innerHTML = nominal;
-    cell6.innerHTML = 0;
-  });
-</script>
+    cell1.innerHTML = unitInstitusi;
+    cell2.innerHTML = kodeAkun;
+    cell3.innerHTML = namaAkun;
+    cell4.innerHTML = formattedNominal;
+    cell5.innerHTML = 0;
 
-<script>
-  document.getElementById('nominalPasangan_1').addEventListener('change', function(e) {
-    var table = document.getElementById('previewEntriJurnal');
-    var namaAkunPasangan_1 = document.getElementById('namaAkunPasangan_1').value;
+    // Add the second row
+    var row2 = table.insertRow(-1);
+    cell1 = row2.insertCell(0);
+    cell2 = row2.insertCell(1);
+    cell3 = row2.insertCell(2);
+    cell4 = row2.insertCell(3);
+    cell5 = row2.insertCell(4);
 
-    // Only proceed if namaAkunPasangan_1 is not empty
-    if (!namaAkunPasangan_1) {
-      return;
+    cell1.innerHTML = unitInstitusi;
+    cell2.innerHTML = kodeAkunPasangan_1;
+    cell3.innerHTML = namaAkunPasangan_1;
+    cell4.innerHTML = 0;
+    cell5.innerHTML = formattedNominalPasangan_1;
+
+    if (nominalPasangan_2 > 0) {
+      var namaAkunPasangan_2 = document.getElementById('namaAkunPasangan_2').value;
+      var kodeAkunPasangan_2 = document.getElementById('kodeAkunPasangan_2').value;
+      var nominalPasangan_2 = document.getElementById('nominalPasangan_2').value;
+
+      // Format the nominalPasangan_2 value
+      var formattedNominalPasangan_2 = parseInt(nominalPasangan_2).toLocaleString('id-ID');
+
+      // Add the third row
+      var row3 = table.insertRow(-1);
+      cell1 = row3.insertCell(0);
+      cell2 = row3.insertCell(1);
+      cell3 = row3.insertCell(2);
+      cell4 = row3.insertCell(3);
+      cell5 = row3.insertCell(4);
+
+      cell1.innerHTML = unitInstitusi;
+      cell2.innerHTML = kodeAkunPasangan_2;
+      cell3.innerHTML = namaAkunPasangan_2;
+      cell4.innerHTML = 0;
+      cell5.innerHTML = formattedNominalPasangan_2;
     }
 
-    // Get the values from the inputOutput, kodeAkunPasangan_1, and nominalPasangan_1 fields
-    var inputOutput = document.getElementById('inputOutput').value;
-    var inputOutput_row2 = inputOutput === 'IN' ? 'OUT' : 'IN';
-    var kodeAkunPasangan_1 = document.getElementById('kodeAkunPasangan_1').value;
-    var nominalPasangan_1 = e.target.value;
+    if (id_program > 464) {
+     
+    } 
 
-    // Add a new row
-    var row = table.insertRow(-1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    var cell5 = row.insertCell(4);
-    var cell6 = row.insertCell(5);
 
-    cell1.innerHTML = inputOutput_row2;
-    cell2.innerHTML = '';
-    cell3.innerHTML = kodeAkunPasangan_1;
-    cell4.innerHTML = namaAkunPasangan_1;
-    cell5.innerHTML = 0;
-    cell6.innerHTML = nominalPasangan_1;
   });
 </script>
 

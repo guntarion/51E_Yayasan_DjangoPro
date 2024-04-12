@@ -38,8 +38,8 @@
           <div class="mt-2">
             <div class="row">
               <div class="col">
-                  <label for="programName" class="form-label">Nama Program</label>
-                  <input type="text" class="form-control" id="programName">
+                  <label for="program_nama" class="form-label">Nama Program</label>
+                  <input type="text" class="form-control" id="program_nama">
               </div>
               <div class="col">
                   <label for="subyekJurnal" class="form-label">Subyek Jurnal</label>
@@ -271,7 +271,7 @@
 
   <script>
   $(function() {
-    $("#programName").autocomplete({
+    $("#program_nama").autocomplete({
       source: function(request, response) {
         $.getJSON("{% url 'lapkeuangan:autocomplete_program' %}", {
           term: request.term
@@ -284,7 +284,7 @@
 
   {% comment %} <script>
   $(function() {
-    $("#programName").autocomplete({
+    $("#program_nama").autocomplete({
       source: function(request, response) {
         $.getJSON("{% url 'lapkeuangan:autocomplete_program' %}", {
           term: request.term,
@@ -341,9 +341,9 @@ $(function() {
 
 {% comment %} <script>
 $(function() {
-  $("#programName").on('autocompleteselect', function(event, ui) {
+  $("#program_nama").on('autocompleteselect', function(event, ui) {
     $.getJSON("{% url 'lapkeuangan:get_unit_from_program' %}", {
-      programName: ui.item.value
+      program_nama: ui.item.value
     }, function(data) {
       $("#unitInstitusi").val(data.unit);
       $("#kodeAkun").val(data.kode_akun);  // Add this line
@@ -355,9 +355,9 @@ $(function() {
 {% comment %} Saat mengisi nama program, maka unit institusi, kode akun, dan nama akun terisi otomatis {% endcomment %}
 <script>
 $(function() {
-  $("#programName").on('autocompleteselect', function(event, ui) {
+  $("#program_nama").on('autocompleteselect', function(event, ui) {
     $.getJSON("{% url 'lapkeuangan:get_unit_from_program' %}", {
-      programName: ui.item.value
+      program_nama: ui.item.value
     }, function(data) {
       $("#unitInstitusi").val(data.unit);
       $("#kodeAkun").val(data.kode_akun);
@@ -402,13 +402,13 @@ $(function() {
 <script>
   document.querySelector('button[name="button"]').addEventListener('click', function(e) {
     var table = document.getElementById('previewEntriJurnal');
-    var programName = document.getElementById('programName').value;
+    var program_nama = document.getElementById('program_nama').value;
     var namaAkunPasangan_1 = document.getElementById('namaAkunPasangan_1').value;
     var namaAkunPasangan_2 = document.getElementById('namaAkunPasangan_2').value;
     
 
-    // Only proceed if programName and namaAkunPasangan_1 are not empty
-    if (!programName || !namaAkunPasangan_1) {
+    // Only proceed if program_nama and namaAkunPasangan_1 are not empty
+    if (!program_nama || !namaAkunPasangan_1) {
       return;
     }
 
@@ -491,5 +491,51 @@ $(function() {
   });
 </script>
 
+<script>
+  document.querySelector('button[name="button"]').addEventListener('click', async () => {
+    const endpointUrl = "/lapkeuangan/create-entry/";
+
+    // Get the values from the form fields
+    var user_input = {
+      'program_nama': document.getElementById('programName').value,
+      'program_id' : document.getElementById('programId').value,
+      'program_in_out' : document.getElementById('inputOutput').value,
+      'program_akun_nama' : document.getElementById('programAkunNama').value,
+      'program_akun_kode' : document.getElementById('kodeAkun').value,
+      'subyek_nama': document.getElementById('subyekNama').value,
+      'subyek_id' : document.getElementById('subyekId').value,
+      'unit_nama' : document.getElementById('unitNama').value,
+      'unit_id' : document.getElementById('unitId').value,
+      'nomimal_transaksi': document.getElementById('nominalTransaksi').value,
+      'pasangan_1_nama' : document.getElementById('pasangan1Nama').value,
+      'pasangan_1_id' : document.getElementById('pasangan1Id').value,
+      'pasangan_1_nominal': document.getElementById('nominalPasangan_1').value,
+      'pasangan_2_nama' : document.getElementById('pasangan2Nama').value,
+      'pasangan_2_id' : document.getElementById('pasangan2Id').value,
+      'pasangan_2_nominal' : document.getElementById('nominalPasangan_2').value,
+      'tanggal_transaksi': document.getElementById('tanggalTransaksi').value,
+      'organisasi': document.getElementById('organisasi').value,
+      'entitas': document.getElementById('entitas').value,
+      'keterangan': document.getElementById('keterangan').value,
+      'catatan': document.getElementById('catatan').value,
+    };
+
+    try {
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      const response = await fetch(endpointUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrftoken
+        },
+        body: JSON.stringify(user_input),
+      });
+      const data = await response.json();
+      // Handle the response data as needed
+    } catch (error) {
+      console.error("Error occurred:", error);
+    }
+  });
+</script>
 
 {% endblock extra_js %}
